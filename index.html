@@ -28,11 +28,31 @@
     color: var(--white);
     font-family: 'DM Sans', sans-serif;
     overflow-x: hidden;
+    cursor: none;
   }
 
   .display {
     font-family: 'Archivo Black', sans-serif;
     text-transform: lowercase;
+  }
+
+  /* CURSOR */
+  .cursor {
+    width: 10px;
+    height: 10px;
+    background: var(--white);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: width 0.2s, height 0.2s, background 0.2s, opacity 0.2s;
+    mix-blend-mode: difference;
+  }
+
+  .cursor.hovered {
+    width: 40px;
+    height: 40px;
   }
 
   /* NAV */
@@ -44,9 +64,16 @@
     align-items: center;
     justify-content: space-between;
     padding: 24px 48px;
-    background: rgba(10,10,10,0.85);
-    backdrop-filter: blur(8px);
-    border-bottom: 0.5px solid var(--gray-border);
+    background: rgba(10,10,10,0);
+    backdrop-filter: blur(0px);
+    border-bottom: 0.5px solid transparent;
+    transition: background 0.4s ease, backdrop-filter 0.4s ease, border-color 0.4s ease;
+  }
+
+  nav.scrolled {
+    background: rgba(10,10,10,0.88);
+    backdrop-filter: blur(10px);
+    border-bottom-color: var(--gray-border);
   }
 
   .nav-logo {
@@ -72,12 +99,78 @@
     color: rgba(242,240,235,0.5);
     text-decoration: none;
     transition: color 0.2s ease, opacity 0.2s ease;
+    position: relative;
   }
-  .nav-links a:hover { opacity: 0.8; }
+
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: currentColor;
+    transition: width 0.3s ease;
+  }
+  .nav-links a:hover::after { width: 100%; }
+  .nav-links a:hover { opacity: 1; color: var(--white); }
 
   .nav-links a.collages { color: var(--collage); }
   .nav-links a.poesia { color: var(--poesia); }
   .nav-links a.podcast { color: var(--podcast); }
+
+  /* Hamburger */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: none;
+    padding: 4px;
+  }
+  .hamburger span {
+    display: block;
+    width: 24px;
+    height: 1.5px;
+    background: var(--white);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    transform-origin: center;
+  }
+  .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 99;
+    background: var(--black);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .mobile-menu.open {
+    display: flex;
+    opacity: 1;
+  }
+  .mobile-menu a {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: clamp(36px, 8vw, 64px);
+    text-transform: lowercase;
+    color: var(--white);
+    text-decoration: none;
+    letter-spacing: -2px;
+    transition: opacity 0.2s;
+  }
+  .mobile-menu a:hover { opacity: 0.6; }
+  .mobile-menu a.collages { color: var(--collage); }
+  .mobile-menu a.poesia { color: var(--poesia); }
+  .mobile-menu a.podcast { color: var(--podcast); }
 
   /* HERO */
   .hero {
@@ -87,6 +180,7 @@
     justify-content: center;
     padding: 140px 48px 80px;
     position: relative;
+    overflow: hidden;
   }
 
   .hero-title {
@@ -94,7 +188,15 @@
     line-height: 0.85;
     letter-spacing: -4px;
     color: var(--white);
+    overflow: hidden;
   }
+
+  .hero-title .line {
+    display: block;
+    transform: translateY(110%);
+    animation: slideUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  .hero-title .line:nth-child(2) { animation-delay: 0.1s; }
 
   .hero-sub {
     margin-top: 32px;
@@ -102,6 +204,8 @@
     font-size: 16px;
     line-height: 1.7;
     color: rgba(242,240,235,0.55);
+    opacity: 0;
+    animation: fadeIn 0.8s ease 0.5s forwards;
   }
 
   .hero-pills {
@@ -109,6 +213,8 @@
     gap: 10px;
     margin-top: 40px;
     flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeIn 0.8s ease 0.7s forwards;
   }
 
   .pill {
@@ -120,25 +226,95 @@
     text-decoration: none;
     text-transform: lowercase;
     color: var(--white);
-    transition: transform 0.2s ease, opacity 0.2s ease;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s;
   }
-  .pill:hover { transform: translateY(-2px); opacity: 0.9; }
+  .pill:hover { transform: translateY(-3px); opacity: 0.85; }
   .pill.collages { background: var(--collage); }
   .pill.poesia { background: var(--poesia); }
   .pill.podcast { background: var(--podcast); }
 
+  /* BLOBS */
   .hero-blob {
     position: absolute;
     border-radius: 50%;
-    filter: blur(80px);
-    opacity: 0.25;
-    z-index: -1;
+    filter: blur(90px);
+    opacity: 0.2;
+    z-index: 0;
+    will-change: transform;
   }
-  .blob-1 { width: 500px; height: 500px; background: var(--collage); top: -100px; right: -100px; }
-  .blob-2 { width: 400px; height: 400px; background: var(--poesia); bottom: -150px; left: 10%; }
-  .blob-3 { width: 350px; height: 350px; background: var(--podcast); top: 40%; right: 20%; }
+  .blob-1 {
+    width: 600px; height: 600px;
+    background: var(--collage);
+    top: -150px; right: -120px;
+    animation: float1 12s ease-in-out infinite;
+  }
+  .blob-2 {
+    width: 500px; height: 500px;
+    background: var(--poesia);
+    bottom: -200px; left: 5%;
+    animation: float2 16s ease-in-out infinite;
+  }
+  .blob-3 {
+    width: 400px; height: 400px;
+    background: var(--podcast);
+    top: 35%; right: 15%;
+    animation: float3 10s ease-in-out infinite;
+  }
 
-  /* SECTION: RAMAS */
+  .hero > *:not(.hero-blob) { position: relative; z-index: 1; }
+
+  /* SCROLL INDICATOR */
+  .scroll-hint {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    animation: fadeIn 1s ease 1.2s forwards;
+    z-index: 1;
+  }
+  .scroll-hint span {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(242,240,235,0.25);
+  }
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, rgba(242,240,235,0.3), transparent);
+    animation: scrollDown 2s ease-in-out 1.5s infinite;
+  }
+
+  /* MARQUEE */
+  .marquee-wrap {
+    border-top: 0.5px solid var(--gray-border);
+    border-bottom: 0.5px solid var(--gray-border);
+    overflow: hidden;
+    padding: 16px 0;
+  }
+  .marquee-track {
+    display: flex;
+    gap: 64px;
+    white-space: nowrap;
+    animation: marquee 20s linear infinite;
+  }
+  .marquee-track span {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(242,240,235,0.2);
+    flex-shrink: 0;
+  }
+  .marquee-track span.accent-c { color: rgba(232,67,10,0.4); }
+  .marquee-track span.accent-p { color: rgba(123,79,212,0.4); }
+  .marquee-track span.accent-d { color: rgba(212,150,10,0.4); }
+
+  /* RAMAS */
   .ramas {
     padding: 100px 48px;
     border-top: 0.5px solid var(--gray-border);
@@ -164,12 +340,26 @@
     padding: 48px 36px;
     text-decoration: none;
     color: var(--white);
-    transition: background 0.3s ease;
-    min-height: 320px;
+    transition: background 0.35s ease;
+    min-height: 340px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    overflow: hidden;
+    position: relative;
   }
+
+  .rama-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+  .rama-card.collages::before { background: radial-gradient(circle at bottom left, rgba(232,67,10,0.08), transparent 70%); }
+  .rama-card.poesia::before   { background: radial-gradient(circle at bottom left, rgba(123,79,212,0.08), transparent 70%); }
+  .rama-card.podcast::before  { background: radial-gradient(circle at bottom left, rgba(212,150,10,0.08), transparent 70%); }
+  .rama-card:hover::before { opacity: 1; }
 
   .rama-card:hover { background: var(--black-soft); }
 
@@ -185,43 +375,67 @@
     text-transform: lowercase;
     letter-spacing: -1px;
     margin-top: 80px;
+    transition: letter-spacing 0.3s ease;
   }
+  .rama-card:hover .rama-name { letter-spacing: -0.5px; }
 
   .rama-card.collages .rama-name { color: var(--collage); }
-  .rama-card.poesia .rama-name { color: var(--poesia); }
-  .rama-card.podcast .rama-name { color: var(--podcast); }
+  .rama-card.poesia .rama-name   { color: var(--poesia); }
+  .rama-card.podcast .rama-name  { color: var(--podcast); }
 
   .rama-desc {
     font-size: 13px;
     color: rgba(242,240,235,0.5);
     margin-top: 12px;
     max-width: 220px;
+    line-height: 1.6;
   }
 
   .rama-arrow {
     font-size: 13px;
     margin-top: 24px;
     font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: gap 0.25s ease;
   }
+  .rama-card:hover .rama-arrow { gap: 12px; }
   .rama-card.collages .rama-arrow { color: var(--collage); }
-  .rama-card.poesia .rama-arrow { color: var(--poesia); }
-  .rama-card.podcast .rama-arrow { color: var(--podcast); }
+  .rama-card.poesia .rama-arrow   { color: var(--poesia); }
+  .rama-card.podcast .rama-arrow  { color: var(--podcast); }
 
   /* SOBRE */
   .sobre {
     padding: 100px 48px;
     border-top: 0.5px solid var(--gray-border);
-    max-width: 720px;
+    max-width: 800px;
   }
 
   .sobre p {
     font-size: 22px;
-    line-height: 1.6;
+    line-height: 1.65;
     color: rgba(242,240,235,0.75);
     font-weight: 400;
   }
 
-  .sobre p + p { margin-top: 24px; }
+  .sobre p + p { margin-top: 28px; }
+
+  .sobre .highlight {
+    color: var(--white);
+    font-weight: 700;
+  }
+
+  /* REVEAL */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: none;
+  }
 
   /* FOOTER */
   footer {
@@ -239,6 +453,7 @@
     font-size: 16px;
     text-transform: lowercase;
     color: var(--white);
+    text-decoration: none;
   }
   .footer-logo span { opacity: 0.35; }
 
@@ -258,29 +473,96 @@
     text-transform: uppercase;
     color: rgba(242,240,235,0.5);
     text-decoration: none;
+    transition: color 0.2s;
   }
   .footer-social a:hover { color: var(--white); }
+
+  /* KEYFRAMES */
+  @keyframes slideUp {
+    to { transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    to { opacity: 1; }
+  }
+
+  @keyframes float1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33%       { transform: translate(-30px, 40px) scale(1.05); }
+    66%       { transform: translate(20px, -20px) scale(0.97); }
+  }
+
+  @keyframes float2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    40%       { transform: translate(40px, -50px) scale(1.08); }
+    70%       { transform: translate(-20px, 20px) scale(0.95); }
+  }
+
+  @keyframes float3 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50%       { transform: translate(-40px, 30px) scale(1.1); }
+  }
+
+  @keyframes scrollDown {
+    0%   { opacity: 1; transform: scaleY(1) translateY(0); transform-origin: top; }
+    100% { opacity: 0; transform: scaleY(0.3) translateY(20px); transform-origin: top; }
+  }
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
 
   /* RESPONSIVE */
   @media (max-width: 860px) {
     nav { padding: 18px 24px; }
     .nav-links { gap: 18px; }
-    .hero { padding: 120px 24px 60px; }
-    .ramas, .sobre, footer { padding-left: 24px; padding-right: 24px; }
+    .hero { padding: 120px 24px 80px; }
+    .ramas, footer { padding-left: 24px; padding-right: 24px; }
+    .sobre { padding: 80px 24px; }
     .rama-grid { grid-template-columns: 1fr; }
-    .rama-card { min-height: 220px; }
+    .rama-card { min-height: 240px; }
+    .rama-name { margin-top: 40px; }
     .sobre p { font-size: 18px; }
     footer { flex-direction: column; align-items: flex-start; }
   }
 
   @media (max-width: 560px) {
     .nav-links { display: none; }
+    .hamburger { display: flex; }
+    body.menu-open { overflow: hidden; }
+    .hero-title { letter-spacing: -2px; }
+    .blob-1 { width: 300px; height: 300px; }
+    .blob-2 { width: 260px; height: 260px; }
+    .blob-3 { width: 220px; height: 220px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-title .line,
+    .hero-sub,
+    .hero-pills,
+    .scroll-hint { animation: none; opacity: 1; transform: none; }
+    .hero-blob { animation: none; }
+    .marquee-track { animation: none; }
+    .cursor { display: none; }
+    body { cursor: auto; }
   }
 </style>
 </head>
 <body>
 
-<nav>
+<div class="cursor" id="cursor"></div>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#ramas" onclick="closeMobile()">inicio</a>
+  <a href="#" class="collages" onclick="closeMobile()">collages</a>
+  <a href="#" class="poesia" onclick="closeMobile()">poesía</a>
+  <a href="#" class="podcast" onclick="closeMobile()">pódcast</a>
+  <a href="#sobre" onclick="closeMobile()">sobre</a>
+</div>
+
+<nav id="mainNav">
   <a href="#" class="nav-logo">jarana<span> lab</span></a>
   <ul class="nav-links">
     <li><a href="#ramas">inicio</a></li>
@@ -289,6 +571,9 @@
     <li><a href="#" class="podcast">pódcast</a></li>
     <li><a href="#sobre">sobre</a></li>
   </ul>
+  <button class="hamburger" id="hamburger" aria-label="Abrir menú">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
 <section class="hero">
@@ -296,7 +581,10 @@
   <div class="hero-blob blob-2"></div>
   <div class="hero-blob blob-3"></div>
 
-  <h1 class="hero-title display">jarana<br>lab</h1>
+  <h1 class="hero-title display">
+    <span class="line">jarana</span>
+    <span class="line">lab</span>
+  </h1>
   <p class="hero-sub">Un laboratorio creativo donde el caos tiene forma. Collages, palabras y voces que se ramifican desde un mismo lugar.</p>
 
   <div class="hero-pills">
@@ -304,36 +592,69 @@
     <a href="#" class="pill poesia">poesía</a>
     <a href="#" class="pill podcast">pódcast</a>
   </div>
+
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    <span>scroll</span>
+  </div>
 </section>
 
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span>jarana lab</span>
+    <span class="accent-c">collages</span>
+    <span>·</span>
+    <span class="accent-p">poesía</span>
+    <span>·</span>
+    <span class="accent-d">pódcast</span>
+    <span>·</span>
+    <span>laboratorio creativo</span>
+    <span>·</span>
+    <span>caos con forma</span>
+    <span>·</span>
+    <span>jarana lab</span>
+    <span class="accent-c">collages</span>
+    <span>·</span>
+    <span class="accent-p">poesía</span>
+    <span>·</span>
+    <span class="accent-d">pódcast</span>
+    <span>·</span>
+    <span>laboratorio creativo</span>
+    <span>·</span>
+    <span>caos con forma</span>
+    <span>·</span>
+  </div>
+</div>
+
 <section class="ramas" id="ramas">
-  <p class="section-label">tres ramas, un mismo origen</p>
+  <p class="section-label reveal">tres ramas, un mismo origen</p>
   <div class="rama-grid">
 
-    <a href="#" class="rama-card collages">
+    <a href="#" class="rama-card collages reveal">
       <span class="rama-num">01</span>
       <div>
         <div class="rama-name display">collages</div>
         <p class="rama-desc">Composiciones visuales hechas de fragmentos, texturas y contradicciones.</p>
-        <div class="rama-arrow">ver galería →</div>
+        <div class="rama-arrow">ver galería <span>→</span></div>
       </div>
     </a>
 
-    <a href="#" class="rama-card poesia">
+    <a href="#" class="rama-card poesia reveal" style="transition-delay:0.1s">
       <span class="rama-num">02</span>
       <div>
         <div class="rama-name display">poesía</div>
         <p class="rama-desc">Textos íntimos, breves, escritos desde la urgencia de decir algo.</p>
-        <div class="rama-arrow">leer textos →</div>
+        <div class="rama-arrow">leer textos <span>→</span></div>
       </div>
     </a>
 
-    <a href="#" class="rama-card podcast">
+    <a href="#" class="rama-card podcast reveal" style="transition-delay:0.2s">
       <span class="rama-num">03</span>
       <div>
         <div class="rama-name display">pódcast</div>
         <p class="rama-desc">Conversaciones y voces grabadas, sin guion fijo, con calor humano.</p>
-        <div class="rama-arrow">escuchar →</div>
+        <div class="rama-arrow">escuchar <span>→</span></div>
       </div>
     </a>
 
@@ -341,9 +662,10 @@
 </section>
 
 <section class="sobre" id="sobre">
-  <p class="section-label">sobre el proyecto</p>
-  <p>jarana lab es un espacio donde la experimentación creativa no tiene una sola forma.</p>
-  <p>Nace como paraguas para tres lenguajes distintos —visual, escrito y sonoro— que comparten una misma raíz: la necesidad de crear sin pedir permiso.</p>
+  <p class="section-label reveal">sobre el proyecto</p>
+  <p class="reveal"><span class="highlight">jarana lab</span> es un espacio donde la experimentación creativa no tiene una sola forma.</p>
+  <p class="reveal" style="transition-delay:0.15s">Nace como paraguas para tres lenguajes distintos —visual, escrito y sonoro— que comparten una misma raíz: la necesidad de <span class="highlight">crear sin pedir permiso</span>.</p>
+  <p class="reveal" style="transition-delay:0.3s">El nombre lo dice todo: <span class="highlight">jarana</span> —fiesta, alboroto, jolgorio— más <span class="highlight">lab</span> —laboratorio, proceso en construcción. Caos con forma.</p>
 </section>
 
 <footer>
@@ -354,6 +676,53 @@
     <a href="#">contacto</a>
   </div>
 </footer>
+
+<script>
+  // Cursor
+  const cursor = document.getElementById('cursor');
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+  });
+  document.querySelectorAll('a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
+    el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
+  });
+
+  // Nav scroll state
+  const nav = document.getElementById('mainNav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  }, { passive: true });
+
+  // Hamburger
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+
+  hamburger.addEventListener('click', () => {
+    const open = hamburger.classList.toggle('open');
+    mobileMenu.classList.toggle('open', open);
+    document.body.classList.toggle('menu-open', open);
+  });
+
+  function closeMobile() {
+    hamburger.classList.remove('open');
+    mobileMenu.classList.remove('open');
+    document.body.classList.remove('menu-open');
+  }
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  reveals.forEach(el => observer.observe(el));
+</script>
 
 </body>
 </html>
