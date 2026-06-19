@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>pódcast — jarana lab</title>
+<meta name="description" content="Conversaciones y voces grabadas. jarana lab.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --black-soft: #1a1a1a;
+    --white: #f2f0eb;
+    --gray-border: #3a3a3a;
+    --podcast: #D4960A;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  .cursor {
+    width: 10px; height: 10px;
+    background: var(--podcast);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: width 0.2s, height 0.2s, opacity 0.2s;
+  }
+  .cursor.hovered { width: 36px; height: 36px; opacity: 0.4; }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 48px;
+    background: rgba(10,10,10,0.88);
+    backdrop-filter: blur(10px);
+    border-bottom: 0.5px solid var(--gray-border);
+  }
+
+  .nav-logo {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 20px;
+    letter-spacing: -1px;
+    color: var(--white);
+    text-transform: lowercase;
+    text-decoration: none;
+  }
+  .nav-logo span { opacity: 0.35; }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(242,240,235,0.5);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--white); }
+  .nav-links a.active { color: var(--podcast); }
+
+  /* HEADER */
+  .page-header {
+    padding: 140px 48px 64px;
+    border-bottom: 0.5px solid var(--gray-border);
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .page-title {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: clamp(48px, 10vw, 120px);
+    text-transform: lowercase;
+    letter-spacing: -3px;
+    line-height: 0.9;
+    color: var(--podcast);
+  }
+
+  .header-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+    padding-bottom: 8px;
+  }
+
+  .spotify-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border: 0.5px solid var(--gray-border);
+    border-radius: 30px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: rgba(242,240,235,0.5);
+    text-decoration: none;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .spotify-badge:hover { border-color: #1DB954; color: #1DB954; }
+  .spotify-badge svg { width: 14px; height: 14px; fill: currentColor; }
+
+  /* EMBED */
+  .embed-section {
+    padding: 64px 48px;
+    border-bottom: 0.5px solid var(--gray-border);
+  }
+
+  .embed-label {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(242,240,235,0.35);
+    margin-bottom: 24px;
+  }
+
+  .spotify-embed {
+    border-radius: 12px;
+    overflow: hidden;
+    width: 100%;
+  }
+
+  /* SOBRE EL PODCAST */
+  .about-section {
+    padding: 80px 48px;
+    border-bottom: 0.5px solid var(--gray-border);
+    max-width: 680px;
+  }
+
+  .about-section p {
+    font-size: 20px;
+    line-height: 1.65;
+    color: rgba(242,240,235,0.7);
+  }
+
+  .about-section p + p { margin-top: 20px; }
+
+  /* FOOTER */
+  footer {
+    padding: 40px 48px;
+    border-top: 0.5px solid var(--gray-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .footer-logo {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 16px;
+    text-transform: lowercase;
+    color: var(--white);
+    text-decoration: none;
+  }
+  .footer-logo span { opacity: 0.35; }
+
+  .footer-copy { font-size: 12px; color: rgba(242,240,235,0.3); }
+
+  /* RESPONSIVE */
+  @media (max-width: 640px) {
+    nav { padding: 18px 24px; }
+    .nav-links { display: none; }
+    .page-header { padding: 120px 24px 48px; }
+    .embed-section, .about-section { padding-left: 24px; padding-right: 24px; }
+    footer { padding: 32px 24px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cursor { display: none; }
+    body { cursor: auto; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+
+<nav>
+  <a href="../index.html" class="nav-logo">jarana<span> lab</span></a>
+  <ul class="nav-links">
+    <li><a href="../index.html">inicio</a></li>
+    <li><a href="../collages/">collages</a></li>
+    <li><a href="../poesia/">poesía</a></li>
+    <li><a href="#" class="active">pódcast</a></li>
+    <li><a href="../index.html#sobre">sobre</a></li>
+  </ul>
+</nav>
+
+<header class="page-header">
+  <h1 class="page-title">pódcast</h1>
+  <div class="header-meta">
+    <a href="https://open.spotify.com/show/3nt60YOs59ELZ179v3ISJz" target="_blank" rel="noopener" class="spotify-badge">
+      <svg viewBox="0 0 24 24"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+      escuchar en spotify
+    </a>
+  </div>
+</header>
+
+<section class="embed-section">
+  <p class="embed-label">todos los episodios</p>
+  <iframe
+    class="spotify-embed"
+    src="https://open.spotify.com/embed/show/3nt60YOs59ELZ179v3ISJz?utm_source=generator&theme=0"
+    width="100%"
+    height="352"
+    frameborder="0"
+    allowfullscreen
+    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+    loading="lazy">
+  </iframe>
+</section>
+
+<section class="about-section">
+  <p class="embed-label">sobre el pódcast</p>
+  <p>Conversaciones grabadas sin guion fijo, con calor humano. Voces que se cruzan, historias que se bifurcan.</p>
+  <p>Parte del laboratorio creativo <strong>jarana lab</strong>.</p>
+</section>
+
+<footer>
+  <a href="../index.html" class="footer-logo">jarana<span> lab</span></a>
+  <p class="footer-copy">© 2026 jarana lab.</p>
+</footer>
+
+<script>
+  const cursor = document.getElementById('cursor');
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+  });
+  document.querySelectorAll('a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
+    el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
+  });
+</script>
+
+</body>
+</html>
