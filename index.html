@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>jarana lab — espacio creativo</title>
+<meta name="description" content="jarana lab. Un laboratorio creativo: collages, poesía y pódcast.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --black-soft: #1a1a1a;
+    --white: #f2f0eb;
+    --gray-border: #3a3a3a;
+    --collage: #E8430A;
+    --poesia: #7B4FD4;
+    --podcast: #D4960A;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+  }
+
+  .display {
+    font-family: 'Archivo Black', sans-serif;
+    text-transform: lowercase;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 48px;
+    background: rgba(10,10,10,0.85);
+    backdrop-filter: blur(8px);
+    border-bottom: 0.5px solid var(--gray-border);
+  }
+
+  .nav-logo {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 20px;
+    letter-spacing: -1px;
+    color: var(--white);
+    text-transform: lowercase;
+    text-decoration: none;
+  }
+  .nav-logo span { opacity: 0.35; }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(242,240,235,0.5);
+    text-decoration: none;
+    transition: color 0.2s ease, opacity 0.2s ease;
+  }
+  .nav-links a:hover { opacity: 0.8; }
+
+  .nav-links a.collages { color: var(--collage); }
+  .nav-links a.poesia { color: var(--poesia); }
+  .nav-links a.podcast { color: var(--podcast); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 140px 48px 80px;
+    position: relative;
+  }
+
+  .hero-title {
+    font-size: clamp(64px, 14vw, 200px);
+    line-height: 0.85;
+    letter-spacing: -4px;
+    color: var(--white);
+  }
+
+  .hero-sub {
+    margin-top: 32px;
+    max-width: 480px;
+    font-size: 16px;
+    line-height: 1.7;
+    color: rgba(242,240,235,0.55);
+  }
+
+  .hero-pills {
+    display: flex;
+    gap: 10px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+  }
+
+  .pill {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    padding: 8px 18px;
+    border-radius: 30px;
+    text-decoration: none;
+    text-transform: lowercase;
+    color: var(--white);
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+  .pill:hover { transform: translateY(-2px); opacity: 0.9; }
+  .pill.collages { background: var(--collage); }
+  .pill.poesia { background: var(--poesia); }
+  .pill.podcast { background: var(--podcast); }
+
+  .hero-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.25;
+    z-index: -1;
+  }
+  .blob-1 { width: 500px; height: 500px; background: var(--collage); top: -100px; right: -100px; }
+  .blob-2 { width: 400px; height: 400px; background: var(--poesia); bottom: -150px; left: 10%; }
+  .blob-3 { width: 350px; height: 350px; background: var(--podcast); top: 40%; right: 20%; }
+
+  /* SECTION: RAMAS */
+  .ramas {
+    padding: 100px 48px;
+    border-top: 0.5px solid var(--gray-border);
+  }
+
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(242,240,235,0.35);
+    margin-bottom: 48px;
+  }
+
+  .rama-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--gray-border);
+  }
+
+  .rama-card {
+    background: var(--black);
+    padding: 48px 36px;
+    text-decoration: none;
+    color: var(--white);
+    transition: background 0.3s ease;
+    min-height: 320px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .rama-card:hover { background: var(--black-soft); }
+
+  .rama-num {
+    font-size: 12px;
+    color: rgba(242,240,235,0.3);
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .rama-name {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 36px;
+    text-transform: lowercase;
+    letter-spacing: -1px;
+    margin-top: 80px;
+  }
+
+  .rama-card.collages .rama-name { color: var(--collage); }
+  .rama-card.poesia .rama-name { color: var(--poesia); }
+  .rama-card.podcast .rama-name { color: var(--podcast); }
+
+  .rama-desc {
+    font-size: 13px;
+    color: rgba(242,240,235,0.5);
+    margin-top: 12px;
+    max-width: 220px;
+  }
+
+  .rama-arrow {
+    font-size: 13px;
+    margin-top: 24px;
+    font-weight: 700;
+  }
+  .rama-card.collages .rama-arrow { color: var(--collage); }
+  .rama-card.poesia .rama-arrow { color: var(--poesia); }
+  .rama-card.podcast .rama-arrow { color: var(--podcast); }
+
+  /* SOBRE */
+  .sobre {
+    padding: 100px 48px;
+    border-top: 0.5px solid var(--gray-border);
+    max-width: 720px;
+  }
+
+  .sobre p {
+    font-size: 22px;
+    line-height: 1.6;
+    color: rgba(242,240,235,0.75);
+    font-weight: 400;
+  }
+
+  .sobre p + p { margin-top: 24px; }
+
+  /* FOOTER */
+  footer {
+    padding: 48px;
+    border-top: 0.5px solid var(--gray-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .footer-logo {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 16px;
+    text-transform: lowercase;
+    color: var(--white);
+  }
+  .footer-logo span { opacity: 0.35; }
+
+  .footer-copy {
+    font-size: 12px;
+    color: rgba(242,240,235,0.35);
+  }
+
+  .footer-social {
+    display: flex;
+    gap: 20px;
+  }
+
+  .footer-social a {
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: rgba(242,240,235,0.5);
+    text-decoration: none;
+  }
+  .footer-social a:hover { color: var(--white); }
+
+  /* RESPONSIVE */
+  @media (max-width: 860px) {
+    nav { padding: 18px 24px; }
+    .nav-links { gap: 18px; }
+    .hero { padding: 120px 24px 60px; }
+    .ramas, .sobre, footer { padding-left: 24px; padding-right: 24px; }
+    .rama-grid { grid-template-columns: 1fr; }
+    .rama-card { min-height: 220px; }
+    .sobre p { font-size: 18px; }
+    footer { flex-direction: column; align-items: flex-start; }
+  }
+
+  @media (max-width: 560px) {
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">jarana<span> lab</span></a>
+  <ul class="nav-links">
+    <li><a href="#ramas">inicio</a></li>
+    <li><a href="#" class="collages">collages</a></li>
+    <li><a href="#" class="poesia">poesía</a></li>
+    <li><a href="#" class="podcast">pódcast</a></li>
+    <li><a href="#sobre">sobre</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-blob blob-1"></div>
+  <div class="hero-blob blob-2"></div>
+  <div class="hero-blob blob-3"></div>
+
+  <h1 class="hero-title display">jarana<br>lab</h1>
+  <p class="hero-sub">Un laboratorio creativo donde el caos tiene forma. Collages, palabras y voces que se ramifican desde un mismo lugar.</p>
+
+  <div class="hero-pills">
+    <a href="#" class="pill collages">collages</a>
+    <a href="#" class="pill poesia">poesía</a>
+    <a href="#" class="pill podcast">pódcast</a>
+  </div>
+</section>
+
+<section class="ramas" id="ramas">
+  <p class="section-label">tres ramas, un mismo origen</p>
+  <div class="rama-grid">
+
+    <a href="#" class="rama-card collages">
+      <span class="rama-num">01</span>
+      <div>
+        <div class="rama-name display">collages</div>
+        <p class="rama-desc">Composiciones visuales hechas de fragmentos, texturas y contradicciones.</p>
+        <div class="rama-arrow">ver galería →</div>
+      </div>
+    </a>
+
+    <a href="#" class="rama-card poesia">
+      <span class="rama-num">02</span>
+      <div>
+        <div class="rama-name display">poesía</div>
+        <p class="rama-desc">Textos íntimos, breves, escritos desde la urgencia de decir algo.</p>
+        <div class="rama-arrow">leer textos →</div>
+      </div>
+    </a>
+
+    <a href="#" class="rama-card podcast">
+      <span class="rama-num">03</span>
+      <div>
+        <div class="rama-name display">pódcast</div>
+        <p class="rama-desc">Conversaciones y voces grabadas, sin guion fijo, con calor humano.</p>
+        <div class="rama-arrow">escuchar →</div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<section class="sobre" id="sobre">
+  <p class="section-label">sobre el proyecto</p>
+  <p>jarana lab es un espacio donde la experimentación creativa no tiene una sola forma.</p>
+  <p>Nace como paraguas para tres lenguajes distintos —visual, escrito y sonoro— que comparten una misma raíz: la necesidad de crear sin pedir permiso.</p>
+</section>
+
+<footer>
+  <a href="#" class="footer-logo">jarana<span> lab</span></a>
+  <p class="footer-copy">© 2026 jarana lab. Todos los derechos reservados.</p>
+  <div class="footer-social">
+    <a href="#">instagram</a>
+    <a href="#">contacto</a>
+  </div>
+</footer>
+
+</body>
+</html>
