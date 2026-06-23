@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>poesía — jarana lab</title>
+<title>textos — jarana lab</title>
 <meta name="description" content="Vainas varias sobre lo que leo, escucho o pienso. jarana lab.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -80,22 +80,55 @@
     color: var(--poesia);
   }
 
-  .coming-soon {
-    flex: 1;
+  .links-section {
+    padding: 80px 48px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 16px;
-    padding: 120px 48px;
-    text-align: center;
+    gap: 1px;
+    background: var(--gray-border);
   }
 
-  .coming-soon p {
-    font-size: 16px;
-    color: rgba(242,240,235,0.35);
-    letter-spacing: 2px;
-    text-transform: uppercase;
+  .ext-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 36px 48px;
+    background: var(--black);
+    text-decoration: none;
+    color: var(--white);
+    transition: background 0.3s ease;
+    margin: 0 -48px;
+  }
+  .ext-link:hover { background: #111; }
+
+  .ext-link-left { display: flex; flex-direction: column; gap: 6px; }
+
+  .ext-link-name {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 28px;
+    text-transform: lowercase;
+    letter-spacing: -1px;
+    color: var(--poesia);
+    transition: letter-spacing 0.3s ease;
+  }
+  .ext-link:hover .ext-link-name { letter-spacing: -0.3px; }
+
+  .ext-link-desc {
+    font-size: 13px;
+    color: rgba(242,240,235,0.4);
+    letter-spacing: 0.5px;
+  }
+
+  .ext-link-arrow {
+    font-size: 20px;
+    color: rgba(242,240,235,0.2);
+    transition: color 0.3s, transform 0.3s;
+    flex-shrink: 0;
+  }
+  .ext-link:hover .ext-link-arrow {
+    color: var(--poesia);
+    transform: translate(4px, -4px);
   }
 
   footer {
@@ -134,19 +167,32 @@
   <ul class="nav-links">
     <li><a href="../index.html">inicio</a></li>
     <li><a href="../collages/">collages</a></li>
-    <li><a href="#" class="active">poesía</a></li>
+    <li><a href="#" class="active">textos</a></li>
     <li><a href="../podcast/">pódcast</a></li>
     <li><a href="../index.html#sobre">sobre</a></li>
   </ul>
 </nav>
 
 <header class="page-header">
-  <h1 class="page-title">poesía</h1>
+  <h1 class="page-title">textos</h1>
 </header>
 
-<div class="coming-soon">
-  <p>próximamente</p>
-</div>
+<section class="links-section">
+  <a href="https://www.instagram.com/crismavibes/" target="_blank" rel="noopener" class="ext-link">
+    <div class="ext-link-left">
+      <span class="ext-link-name">crismavibes</span>
+      <span class="ext-link-desc">instagram · poesía y textos</span>
+    </div>
+    <span class="ext-link-arrow">↗</span>
+  </a>
+  <a href="https://substack.com/@crismarindea" target="_blank" rel="noopener" class="ext-link">
+    <div class="ext-link-left">
+      <span class="ext-link-name">substack</span>
+      <span class="ext-link-desc">substack · escritura larga</span>
+    </div>
+    <span class="ext-link-arrow">↗</span>
+  </a>
+</section>
 
 <footer>
   <a href="../index.html" class="footer-logo">jarana<span> lab</span></a>
