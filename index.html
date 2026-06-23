@@ -347,7 +347,7 @@
     min-height: 340px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
     overflow: hidden;
     position: relative;
   }
@@ -377,9 +377,10 @@
     font-size: 36px;
     text-transform: lowercase;
     letter-spacing: -1px;
-    margin-top: 80px;
+    margin-top: 48px;
     transition: letter-spacing 0.3s ease;
   }
+
   .rama-card:hover .rama-name { letter-spacing: -0.5px; }
 
   .rama-card.collages .rama-name { color: var(--collage); }
@@ -396,7 +397,8 @@
 
   .rama-arrow {
     font-size: 13px;
-    margin-top: 24px;
+    margin-top: auto;
+    padding-top: 32px;
     font-weight: 700;
     display: inline-flex;
     align-items: center;
