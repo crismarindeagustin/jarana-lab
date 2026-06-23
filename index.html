@@ -227,6 +227,9 @@
     text-transform: lowercase;
     color: var(--white);
     transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s;
+    position: relative;
+    z-index: 10;
+    pointer-events: auto;
   }
   .pill:hover { transform: translateY(-3px); opacity: 0.85; }
   .pill.collages { background: var(--collage); }
@@ -663,7 +666,7 @@
 
 <section class="sobre" id="sobre">
   <p class="section-label reveal">sobre el proyecto</p>
-  <p class="reveal"><span class="highlight">jarana lab</span> es un espacio donde la experimentación creativa no tiene una sola forma.</p>
+  <p class="reveal"><span class="highlight">jarana lab</span> es un espacio para la experimentación creativa.</p>
   <p class="reveal" style="transition-delay:0.15s">Nace como un universo donde el arte se ramifica en varios formatos —visual, escrito y sonoro— que comparten una misma raíz: la <span class="highlight">libertad de crear</span>.</p>
 </section>
 
