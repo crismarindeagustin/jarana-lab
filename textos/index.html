@@ -160,6 +160,15 @@
     background: linear-gradient(to top, rgba(10,10,10,0.92) 0%, rgba(10,10,10,0.4) 60%, rgba(10,10,10,0.1) 100%);
   }
 
+  .poem-card-title {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 13px;
+    text-transform: lowercase;
+    letter-spacing: 0.5px;
+    color: var(--white);
+    margin-bottom: 10px;
+  }
+
   .poem-card-fragment {
     font-size: 13px;
     line-height: 1.8;
@@ -363,9 +372,11 @@
   <div class="poem-grid">
 
     <div class="poem-card" onclick="openPoem('salir')">
-      <img src="crismavibes/las%20bestias%20y%20la%20polis.jpeg" alt="salir a las calles">
+      <img src="crismavibes/las%20bestias%20y%20la%20polis.jpeg" alt="las bestias y la polis">
       <div class="poem-card-overlay">
-        <p class="poem-card-fragment">por los callos
+        <p class="poem-card-title">las bestias y la polis</p>
+        <p class="poem-card-fragment">salir a las calles
+por los callos
 de callarnos
 de adueñarnos
 del daño
@@ -376,9 +387,11 @@ cada año.</p>
     </div>
 
     <div class="poem-card" onclick="openPoem('placer')">
-      <img src="crismavibes/es%20un%20placer%20conocerme.jpeg" alt="es un placer">
+      <img src="crismavibes/es%20un%20placer%20conocerme.jpeg" alt="es un placer conocerme">
       <div class="poem-card-overlay">
-        <p class="poem-card-fragment">conocerme,
+        <p class="poem-card-title">es un placer conocerme</p>
+        <p class="poem-card-fragment">es un placer
+conocerme,
 reconocerme
 y reconciliarme
 con todas mis versiones,
@@ -389,14 +402,16 @@ y decisiones.</p>
     </div>
 
     <div class="poem-card" onclick="openPoem('ella')">
-      <img src="crismavibes/apuntaba%20mareas.jpeg" alt="ella ya">
+      <img src="crismavibes/apuntaba%20mareas.jpeg" alt="apuntaba mareas">
       <div class="poem-card-overlay">
+        <p class="poem-card-title">apuntaba mareas</p>
         <p class="poem-card-fragment">apuntaba
 mareas
 olas
 y a-dioses
 a una luna
-atea.</p>
+atea
+sin ataduras.</p>
         <span class="poem-card-cta">leer poema →</span>
       </div>
     </div>
