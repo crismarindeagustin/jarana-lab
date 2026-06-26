@@ -217,6 +217,123 @@
     .collage-piece:nth-child(4) { grid-column: 2 / 3; margin-top: 32px; }
   }
 
+  /* LIGHTBOX */
+  .lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(10,10,10,0.96);
+    align-items: center;
+    justify-content: center;
+    cursor: none;
+  }
+  .lightbox.open { display: flex; }
+
+  .lightbox-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .lightbox img {
+    max-width: 90vw;
+    max-height: 90vh;
+    object-fit: contain;
+    display: block;
+    transform-origin: center center;
+    transition: transform 0.1s ease;
+    user-select: none;
+    cursor: none;
+  }
+
+  .lightbox-close {
+    position: fixed;
+    top: 24px;
+    right: 32px;
+    background: none;
+    border: none;
+    color: rgba(242,240,235,0.6);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: none;
+    padding: 8px;
+    transition: color 0.2s;
+    z-index: 1001;
+  }
+  .lightbox-close:hover { color: var(--white); }
+
+  .lightbox-nav {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: rgba(242,240,235,0.4);
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 24px;
+    cursor: none;
+    padding: 16px;
+    transition: color 0.2s;
+    z-index: 1001;
+  }
+  .lightbox-nav:hover { color: var(--white); }
+  .lightbox-prev { left: 16px; }
+  .lightbox-next { right: 16px; }
+
+  .lightbox-info {
+    position: fixed;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    z-index: 1001;
+  }
+  .lightbox-name {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 14px;
+    text-transform: lowercase;
+    color: var(--white);
+  }
+  .lightbox-counter {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(242,240,235,0.35);
+  }
+  .lightbox-zoom-hint {
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(242,240,235,0.25);
+    margin-left: 8px;
+  }
+
+  .collage-piece {
+    cursor: none;
+  }
+  .collage-piece img {
+    transition: opacity 0.25s ease;
+  }
+  .collage-piece:hover img {
+    opacity: 0.8;
+  }
+
+  @media (max-width: 640px) {
+    .lightbox-nav { font-size: 18px; padding: 12px; }
+    .lightbox-prev { left: 4px; }
+    .lightbox-next { right: 4px; }
+    .lightbox-zoom-hint { display: none; }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .collage-piece { opacity: 1; transform: none; transition: none; }
     .cursor { display: none; }
@@ -246,7 +363,7 @@
 
 <main class="scatter-wrap">
 
-  <div class="collage-piece">
+  <div class="collage-piece" data-index="0">
     <img src="Bruselas.jpg" alt="Bruselas">
     <div class="collage-label">
       <span class="collage-name">bruselas</span>
@@ -254,7 +371,7 @@
     </div>
   </div>
 
-  <div class="collage-piece">
+  <div class="collage-piece" data-index="1">
     <img src="Cuenca_1.jpg" alt="Cuenca I">
     <div class="collage-label">
       <span class="collage-name">cuenca I</span>
@@ -262,7 +379,7 @@
     </div>
   </div>
 
-  <div class="collage-piece">
+  <div class="collage-piece" data-index="2">
     <img src="Cuenca_2.jpg" alt="Cuenca II">
     <div class="collage-label">
       <span class="collage-name">cuenca II</span>
@@ -270,7 +387,7 @@
     </div>
   </div>
 
-  <div class="collage-piece">
+  <div class="collage-piece" data-index="3">
     <img src="Genova.jpg" alt="Génova">
     <div class="collage-label">
       <span class="collage-name">génova</span>
@@ -279,6 +396,21 @@
   </div>
 
 </main>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true">
+  <div class="lightbox-inner" id="lightboxInner">
+    <img src="" alt="" id="lightboxImg">
+  </div>
+  <button class="lightbox-close" id="lightboxClose">cerrar ✕</button>
+  <button class="lightbox-nav lightbox-prev" id="lightboxPrev">&#8592;</button>
+  <button class="lightbox-nav lightbox-next" id="lightboxNext">&#8594;</button>
+  <div class="lightbox-info">
+    <span class="lightbox-name" id="lightboxName"></span>
+    <span class="lightbox-counter" id="lightboxCounter"></span>
+    <span class="lightbox-zoom-hint">scroll para zoom</span>
+  </div>
+</div>
 
 <footer>
   <a href="../index.html" class="footer-logo">jarana<span> lab</span></a>
@@ -305,6 +437,148 @@
     });
   }, { threshold: 0.1 });
   pieces.forEach(p => obs.observe(p));
+
+  // Lightbox
+  const collages = [
+    { src: 'Bruselas.jpg', name: 'bruselas' },
+    { src: 'Cuenca_1.jpg', name: 'cuenca I' },
+    { src: 'Cuenca_2.jpg', name: 'cuenca II' },
+    { src: 'Genova.jpg',   name: 'génova' },
+  ];
+
+  const lightbox    = document.getElementById('lightbox');
+  const lbImg       = document.getElementById('lightboxImg');
+  const lbName      = document.getElementById('lightboxName');
+  const lbCounter   = document.getElementById('lightboxCounter');
+  const lbClose     = document.getElementById('lightboxClose');
+  const lbPrev      = document.getElementById('lightboxPrev');
+  const lbNext      = document.getElementById('lightboxNext');
+  const lbInner     = document.getElementById('lightboxInner');
+
+  let current = 0;
+  let scale = 1;
+  let panX = 0, panY = 0;
+  let isPanning = false;
+  let panStart = { x: 0, y: 0 };
+
+  function resetTransform() {
+    scale = 1; panX = 0; panY = 0;
+    applyTransform();
+  }
+
+  function applyTransform() {
+    lbImg.style.transform = `translate(${panX}px, ${panY}px) scale(${scale})`;
+  }
+
+  function openLightbox(index) {
+    current = index;
+    resetTransform();
+    lbImg.src = collages[current].src;
+    lbImg.alt = collages[current].name;
+    lbName.textContent = collages[current].name;
+    lbCounter.textContent = `${current + 1} / ${collages.length}`;
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+    resetTransform();
+  }
+
+  function goTo(index) {
+    current = (index + collages.length) % collages.length;
+    resetTransform();
+    lbImg.src = collages[current].src;
+    lbImg.alt = collages[current].name;
+    lbName.textContent = collages[current].name;
+    lbCounter.textContent = `${current + 1} / ${collages.length}`;
+  }
+
+  pieces.forEach(piece => {
+    piece.addEventListener('click', () => openLightbox(+piece.dataset.index));
+  });
+
+  lbClose.addEventListener('click', closeLightbox);
+  lbPrev.addEventListener('click', () => goTo(current - 1));
+  lbNext.addEventListener('click', () => goTo(current + 1));
+
+  // Close on backdrop click
+  lightbox.addEventListener('click', e => {
+    if (e.target === lightbox || e.target === lbInner) closeLightbox();
+  });
+
+  // Keyboard
+  document.addEventListener('keydown', e => {
+    if (!lightbox.classList.contains('open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') goTo(current - 1);
+    if (e.key === 'ArrowRight') goTo(current + 1);
+  });
+
+  // Wheel zoom
+  lbInner.addEventListener('wheel', e => {
+    e.preventDefault();
+    const delta = e.deltaY < 0 ? 0.15 : -0.15;
+    scale = Math.min(5, Math.max(1, scale + delta));
+    if (scale === 1) { panX = 0; panY = 0; }
+    applyTransform();
+  }, { passive: false });
+
+  // Mouse pan
+  lbImg.addEventListener('mousedown', e => {
+    if (scale <= 1) return;
+    isPanning = true;
+    panStart = { x: e.clientX - panX, y: e.clientY - panY };
+    lbImg.style.cursor = 'grabbing';
+  });
+  document.addEventListener('mousemove', e => {
+    if (!isPanning) return;
+    panX = e.clientX - panStart.x;
+    panY = e.clientY - panStart.y;
+    applyTransform();
+  });
+  document.addEventListener('mouseup', () => {
+    isPanning = false;
+    lbImg.style.cursor = 'none';
+  });
+
+  // Touch pinch zoom
+  let lastDist = null;
+  lbInner.addEventListener('touchstart', e => {
+    if (e.touches.length === 2) {
+      lastDist = Math.hypot(
+        e.touches[0].clientX - e.touches[1].clientX,
+        e.touches[0].clientY - e.touches[1].clientY
+      );
+    }
+  });
+  lbInner.addEventListener('touchmove', e => {
+    if (e.touches.length === 2) {
+      e.preventDefault();
+      const dist = Math.hypot(
+        e.touches[0].clientX - e.touches[1].clientX,
+        e.touches[0].clientY - e.touches[1].clientY
+      );
+      if (lastDist) {
+        const ratio = dist / lastDist;
+        scale = Math.min(5, Math.max(1, scale * ratio));
+        if (scale === 1) { panX = 0; panY = 0; }
+        applyTransform();
+      }
+      lastDist = dist;
+    }
+  }, { passive: false });
+  lbInner.addEventListener('touchend', () => { lastDist = null; });
+
+  // Double-tap to reset zoom
+  let lastTap = 0;
+  lbInner.addEventListener('touchend', e => {
+    const now = Date.now();
+    if (now - lastTap < 300) { resetTransform(); }
+    lastTap = now;
+  });
 </script>
 
 </body>
