@@ -178,7 +178,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 140px 48px 80px;
+    padding: 140px 48px 32px;
     position: relative;
     overflow: hidden;
   }
@@ -265,33 +265,6 @@
   }
 
   .hero > *:not(.hero-blob) { position: relative; z-index: 1; }
-
-  /* SCROLL INDICATOR */
-  .scroll-hint {
-    position: absolute;
-    bottom: 40px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    opacity: 0;
-    animation: fadeIn 1s ease 1.2s forwards;
-    z-index: 1;
-  }
-  .scroll-hint span {
-    font-size: 10px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: rgba(242,240,235,0.25);
-  }
-  .scroll-line {
-    width: 1px;
-    height: 40px;
-    background: linear-gradient(to bottom, rgba(242,240,235,0.3), transparent);
-    animation: scrollDown 2s ease-in-out 1.5s infinite;
-  }
 
   /* MARQUEE */
   .marquee-wrap {
@@ -412,7 +385,7 @@
 
   /* SOBRE */
   .sobre {
-    padding: 100px 48px;
+    padding: 100px 48px 48px;
     border-top: 0.5px solid var(--gray-border);
     max-width: 800px;
   }
@@ -508,11 +481,6 @@
     50%       { transform: translate(-40px, 30px) scale(1.1); }
   }
 
-  @keyframes scrollDown {
-    0%   { opacity: 1; transform: scaleY(1) translateY(0); transform-origin: top; }
-    100% { opacity: 0; transform: scaleY(0.3) translateY(20px); transform-origin: top; }
-  }
-
   @keyframes marquee {
     from { transform: translateX(0); }
     to   { transform: translateX(-50%); }
@@ -545,8 +513,7 @@
   @media (prefers-reduced-motion: reduce) {
     .hero-title .line,
     .hero-sub,
-    .hero-pills,
-    .scroll-hint { animation: none; opacity: 1; transform: none; }
+    .hero-pills { animation: none; opacity: 1; transform: none; }
     .hero-blob { animation: none; }
     .marquee-track { animation: none; }
     .cursor { display: none; }
@@ -572,7 +539,7 @@
   <ul class="nav-links">
     <li><a href="#ramas">inicio</a></li>
     <li><a href="collages/" class="collages">collages</a></li>
-    <li><a href="poesia/" class="poesia">textos</a></li>
+    <li><a href="textos/" class="poesia">textos</a></li>
     <li><a href="podcast/" class="podcast">pódcast</a></li>
     <li><a href="#sobre">sobre</a></li>
   </ul>
@@ -590,18 +557,14 @@
     <span class="line">jarana</span>
     <span class="line">lab</span>
   </h1>
-  <p class="hero-sub">un laboratorio creativo de arte para experimentar</p>
+
 
   <div class="hero-pills">
     <a href="collages/" class="pill collages">collages</a>
-    <a href="poesia/" class="pill poesia">textos</a>
+    <a href="textos/" class="pill poesia">textos</a>
     <a href="podcast/" class="pill podcast">pódcast</a>
   </div>
 
-  <div class="scroll-hint">
-    <div class="scroll-line"></div>
-    <span>scroll</span>
-  </div>
 </section>
 
 <!-- MARQUEE -->
@@ -632,8 +595,14 @@
   </div>
 </div>
 
+<section class="sobre" id="sobre">
+  <p class="section-label reveal">sobre el proyecto</p>
+  <p class="reveal"><span class="highlight">jarana lab</span> es un espacio para la experimentación creativa.</p>
+  <p class="reveal" style="transition-delay:0.15s">Nace como un universo donde el arte se ramifica en varios formatos —visual, escrito y sonoro— que comparten una misma raíz: la <span class="highlight">libertad de crear</span>.</p>
+</section>
+
 <section class="ramas" id="ramas">
-  <p class="section-label reveal">tres ramas, un mismo origen</p>
+
   <div class="rama-grid">
 
     <a href="collages/" class="rama-card collages reveal">
@@ -645,7 +614,7 @@
       </div>
     </a>
 
-    <a href="poesia/" class="rama-card poesia reveal" style="transition-delay:0.1s">
+    <a href="textos/" class="rama-card poesia reveal" style="transition-delay:0.1s">
       <span class="rama-num">02</span>
       <div>
         <div class="rama-name display">textos</div>
@@ -664,12 +633,6 @@
     </a>
 
   </div>
-</section>
-
-<section class="sobre" id="sobre">
-  <p class="section-label reveal">sobre el proyecto</p>
-  <p class="reveal"><span class="highlight">jarana lab</span> es un espacio para la experimentación creativa.</p>
-  <p class="reveal" style="transition-delay:0.15s">Nace como un universo donde el arte se ramifica en varios formatos —visual, escrito y sonoro— que comparten una misma raíz: la <span class="highlight">libertad de crear</span>.</p>
 </section>
 
 <footer>
