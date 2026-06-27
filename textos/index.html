@@ -469,7 +469,6 @@ sin luces.</p>
 <!-- MODAL -->
 <div class="poem-modal" id="poemModal" onclick="closePoem(event)">
   <div class="poem-modal-inner" id="poemModalInner">
-    <p class="poem-modal-title" id="poemModalTitle"></p>
     <p class="poem-modal-body" id="poemModalBody"></p>
   </div>
   <button class="poem-modal-close" onclick="closePoem(null, true)">×</button>
@@ -510,7 +509,8 @@ sin luces.</p>
   const poems = {
     salir: {
       title: 'salir a las calles',
-      body: `por los callos
+      body: `salir a las calles
+por los callos
 de callarnos
 de adueñarnos
 del daño
@@ -587,7 +587,8 @@ de la polis.`
     },
     placer: {
       title: 'es un placer',
-      body: `conocerme,
+      body: `es un placer
+conocerme,
 reconocerme
 y reconciliarme
 con todas mis versiones,
@@ -656,7 +657,8 @@ mecidas por las mareas.`
     },
     ella: {
       title: 'ella ya',
-      body: `apuntaba
+      body: `ella ya
+apuntaba
 mareas
 olas
 y a-dioses
@@ -716,7 +718,6 @@ y venidas
 más.`
     },
     puravida: {
-      title: 'pura vida',
       body: `el silencio
 del campo
 huele
@@ -782,7 +783,6 @@ llena de expectativas
 y lejos de la pura vida.`
     },
     vaticano: {
-      title: 'llena de gracia',
       body: `el vaticano
 está lleno
 de canas,
@@ -850,7 +850,6 @@ y ellos de desgracias.
 amén.`
     },
     luna: {
-      title: 'la luna y el sol',
       body: `la luna llena
 de lunares
 está vacía de
@@ -913,7 +912,6 @@ casi cada mañana.`
 
   function openPoem(key) {
     const poem = poems[key];
-    document.getElementById('poemModalTitle').textContent = poem.title;
     document.getElementById('poemModalBody').textContent = poem.body;
     document.getElementById('poemModal').classList.add('open');
     document.body.style.overflow = 'hidden';
