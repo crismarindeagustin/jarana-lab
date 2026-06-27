@@ -65,7 +65,7 @@
   .nav-logo span { opacity: 0.35; }
 
   .nav-links {
-    display: flex;
+    display: none;
     gap: 32px;
     list-style: none;
   }
@@ -280,9 +280,59 @@
   .footer-copy { font-size: 12px; color: rgba(242,240,235,0.3); }
 
   /* RESPONSIVE */
-  @media (max-width: 640px) {
+  /* Hamburger */
+  .hamburger {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: none;
+    padding: 4px;
+  }
+  .hamburger span {
+    display: block;
+    width: 24px;
+    height: 1.5px;
+    background: var(--white);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    transform-origin: center;
+  }
+  .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 99;
+    background: var(--black);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .mobile-menu.open { display: flex; opacity: 1; }
+  .mobile-menu a {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: clamp(36px, 8vw, 64px);
+    text-transform: lowercase;
+    color: var(--white);
+    text-decoration: none;
+    letter-spacing: -2px;
+    transition: opacity 0.2s;
+  }
+  .mobile-menu a:hover { opacity: 0.6; }
+  .mobile-menu a.podcast { color: var(--podcast); }
+
+  @media (max-width: 768px) {
     nav { padding: 18px 24px; }
     .nav-links { display: none; }
+    .hamburger { display: flex; }
+    body.menu-open { overflow: hidden; }
     .page-header { padding: 120px 24px 48px; }
     .embed-section, .about-section { padding-left: 24px; padding-right: 24px; }
     footer { padding: 32px 24px; }
@@ -298,15 +348,26 @@
 
 <div class="cursor" id="cursor"></div>
 
+<div class="mobile-menu" id="mobileMenu">
+  <a href="../index.html" onclick="closeMobile()">inicio</a>
+  <a href="../collages/" onclick="closeMobile()">collages</a>
+  <a href="../textos/" onclick="closeMobile()">textos</a>
+  <a href="#" class="podcast" onclick="closeMobile()">pódcast</a>
+  <a href="../index.html#sobre" onclick="closeMobile()">sobre</a>
+</div>
+
 <nav>
   <a href="../index.html" class="nav-logo">jarana<span> lab</span></a>
   <ul class="nav-links">
     <li><a href="../index.html">inicio</a></li>
     <li><a href="../collages/">collages</a></li>
-    <li><a href="../poesia/">textos</a></li>
+    <li><a href="../textos/">textos</a></li>
     <li><a href="#" class="active">pódcast</a></li>
     <li><a href="../index.html#sobre">sobre</a></li>
   </ul>
+  <button class="hamburger" id="hamburger" aria-label="Abrir menú">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
 <header class="page-header">
@@ -477,6 +538,20 @@
     el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
     el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
   });
+
+  // Hamburger
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  hamburger.addEventListener('click', () => {
+    const open = hamburger.classList.toggle('open');
+    mobileMenu.classList.toggle('open', open);
+    document.body.classList.toggle('menu-open', open);
+  });
+  function closeMobile() {
+    hamburger.classList.remove('open');
+    mobileMenu.classList.remove('open');
+    document.body.classList.remove('menu-open');
+  }
 </script>
 
 </body>
