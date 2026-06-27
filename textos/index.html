@@ -530,6 +530,7 @@ sin luces.</p>
 <!-- MODAL -->
 <div class="poem-modal" id="poemModal" onclick="closePoem(event)">
   <div class="poem-modal-inner" id="poemModalInner">
+    <p class="poem-modal-title" id="poemModalTitle"></p>
     <p class="poem-modal-body" id="poemModalBody"></p>
   </div>
   <button class="poem-modal-close" onclick="closePoem(null, true)">×</button>
@@ -779,6 +780,7 @@ y venidas
 más.`
     },
     puravida: {
+      title: 'pura vida',
       body: `el silencio
 del campo
 huele
@@ -844,6 +846,7 @@ llena de expectativas
 y lejos de la pura vida.`
     },
     vaticano: {
+      title: 'llena de gracia',
       body: `el vaticano
 está lleno
 de canas,
@@ -911,6 +914,7 @@ y ellos de desgracias.
 amén.`
     },
     luna: {
+      title: 'la luna y el sol',
       body: `la luna llena
 de lunares
 está vacía de
@@ -973,6 +977,7 @@ casi cada mañana.`
 
   function openPoem(key) {
     const poem = poems[key];
+    document.getElementById('poemModalTitle').textContent = poem.title;
     document.getElementById('poemModalBody').textContent = poem.body;
     document.getElementById('poemModal').classList.add('open');
     document.body.style.overflow = 'hidden';
