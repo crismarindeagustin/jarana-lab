@@ -175,8 +175,12 @@
     font-size: 13px;
     line-height: 1.8;
     color: rgba(242,240,235,0.9);
-    white-space: pre-line;
     margin-bottom: 12px;
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    flex-shrink: 0;
   }
 
   .poem-card-cta {
