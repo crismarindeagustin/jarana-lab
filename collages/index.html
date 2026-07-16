@@ -25,20 +25,7 @@
     color: var(--white);
     font-family: 'DM Sans', sans-serif;
     overflow-x: hidden;
-    cursor: none;
   }
-
-  .cursor {
-    width: 10px; height: 10px;
-    background: var(--collage);
-    border-radius: 50%;
-    position: fixed;
-    pointer-events: none;
-    z-index: 9999;
-    transform: translate(-50%, -50%);
-    transition: width 0.2s, height 0.2s, opacity 0.2s;
-  }
-  .cursor.hovered { width: 36px; height: 36px; opacity: 0.4; }
 
   /* NAV */
   nav {
@@ -148,6 +135,18 @@
     grid-column: 8 / 13;
     margin-top: 40px;
   }
+  .collage-piece:nth-child(5) {
+    grid-column: 1 / 6;
+    margin-top: -20px;
+  }
+  .collage-piece:nth-child(6) {
+    grid-column: 7 / 12;
+    margin-top: 60px;
+  }
+  .collage-piece:nth-child(7) {
+    grid-column: 3 / 8;
+    margin-top: -30px;
+  }
 
   .collage-piece img {
     width: 100%;
@@ -205,7 +204,7 @@
     gap: 5px;
     background: none;
     border: none;
-    cursor: none;
+    cursor: pointer;
     padding: 4px;
   }
   .hamburger span {
@@ -265,6 +264,9 @@
     .collage-piece:nth-child(2) { grid-column: 2 / 3; margin-top: 32px; }
     .collage-piece:nth-child(3) { grid-column: 1 / 2; margin-top: 0; }
     .collage-piece:nth-child(4) { grid-column: 2 / 3; margin-top: 32px; }
+    .collage-piece:nth-child(5) { grid-column: 1 / 2; margin-top: 0; }
+    .collage-piece:nth-child(6) { grid-column: 2 / 3; margin-top: 32px; }
+    .collage-piece:nth-child(7) { grid-column: 1 / 2; margin-top: 0; }
   }
 
   /* LIGHTBOX */
@@ -276,7 +278,6 @@
     background: rgba(10,10,10,0.96);
     align-items: center;
     justify-content: center;
-    cursor: none;
   }
   .lightbox.open { display: flex; }
 
@@ -298,7 +299,6 @@
     transform-origin: center center;
     transition: transform 0.1s ease;
     user-select: none;
-    cursor: none;
   }
 
   .lightbox-close {
@@ -312,7 +312,7 @@
     font-size: 12px;
     letter-spacing: 2px;
     text-transform: uppercase;
-    cursor: none;
+    cursor: pointer;
     padding: 8px;
     transition: color 0.2s;
     z-index: 1001;
@@ -328,7 +328,7 @@
     color: rgba(242,240,235,0.4);
     font-family: 'Archivo Black', sans-serif;
     font-size: 24px;
-    cursor: none;
+    cursor: pointer;
     padding: 16px;
     transition: color 0.2s;
     z-index: 1001;
@@ -368,7 +368,7 @@
   }
 
   .collage-piece {
-    cursor: none;
+    cursor: pointer;
   }
   .collage-piece img {
     transition: opacity 0.25s ease;
@@ -386,14 +386,11 @@
 
   @media (prefers-reduced-motion: reduce) {
     .collage-piece { opacity: 1; transform: none; transition: none; }
-    .cursor { display: none; }
-    body { cursor: auto; }
   }
 </style>
 </head>
 <body>
 
-<div class="cursor" id="cursor"></div>
 
 <div class="mobile-menu" id="mobileMenu">
   <a href="../index.html" onclick="closeMobile()">inicio</a>
@@ -419,7 +416,7 @@
 
 <header class="page-header">
   <h1 class="page-title">collages</h1>
-  <span class="page-count">4 piezas</span>
+  <span class="page-count">7 piezas</span>
 </header>
 
 <main class="scatter-wrap">
@@ -449,10 +446,34 @@
   </div>
 
   <div class="collage-piece" data-index="3">
-    <img src="Genova.jpg" alt="Génova">
+    <img src="Bérgamo.jpg" alt="Bérgamo">
+    <div class="collage-label">
+      <span class="collage-name">bérgamo</span>
+      <span class="collage-num">04</span>
+    </div>
+  </div>
+
+  <div class="collage-piece" data-index="4">
+    <img src="Génova.jpg" alt="Génova">
     <div class="collage-label">
       <span class="collage-name">génova</span>
-      <span class="collage-num">04</span>
+      <span class="collage-num">05</span>
+    </div>
+  </div>
+
+  <div class="collage-piece" data-index="5">
+    <img src="Copenhague.jpg" alt="Copenhague">
+    <div class="collage-label">
+      <span class="collage-name">copenhague</span>
+      <span class="collage-num">06</span>
+    </div>
+  </div>
+
+  <div class="collage-piece" data-index="6">
+    <img src="Milán.jpg" alt="Milán">
+    <div class="collage-label">
+      <span class="collage-name">milán</span>
+      <span class="collage-num">07</span>
     </div>
   </div>
 
@@ -479,16 +500,6 @@
 </footer>
 
 <script>
-  // Cursor
-  const cursor = document.getElementById('cursor');
-  document.addEventListener('mousemove', e => {
-    cursor.style.left = e.clientX + 'px';
-    cursor.style.top = e.clientY + 'px';
-  });
-  document.querySelectorAll('a, button').forEach(el => {
-    el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
-    el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
-  });
 
   // Scroll reveal
   const pieces = document.querySelectorAll('.collage-piece');
@@ -501,10 +512,13 @@
 
   // Lightbox
   const collages = [
-    { src: 'Bruselas.jpg', name: 'bruselas' },
-    { src: 'Cuenca_1.jpg', name: 'cuenca I' },
-    { src: 'Cuenca_2.jpg', name: 'cuenca II' },
-    { src: 'Genova.jpg',   name: 'génova' },
+    { src: 'Bruselas.jpg',   name: 'bruselas' },
+    { src: 'Cuenca_1.jpg',   name: 'cuenca I' },
+    { src: 'Cuenca_2.jpg',   name: 'cuenca II' },
+    { src: 'Bérgamo.jpg',    name: 'bérgamo' },
+    { src: 'Génova.jpg',     name: 'génova' },
+    { src: 'Copenhague.jpg', name: 'copenhague' },
+    { src: 'Milán.jpg',      name: 'milán' },
   ];
 
   const lightbox    = document.getElementById('lightbox');
@@ -602,7 +616,7 @@
   });
   document.addEventListener('mouseup', () => {
     isPanning = false;
-    lbImg.style.cursor = 'none';
+    lbImg.style.cursor = 'grab';
   });
 
   // Touch pinch zoom
