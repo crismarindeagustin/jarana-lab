@@ -25,20 +25,7 @@
     color: var(--white);
     font-family: 'DM Sans', sans-serif;
     overflow-x: hidden;
-    cursor: none;
   }
-
-  .cursor {
-    width: 10px; height: 10px;
-    background: var(--podcast);
-    border-radius: 50%;
-    position: fixed;
-    pointer-events: none;
-    z-index: 9999;
-    transform: translate(-50%, -50%);
-    transition: width 0.2s, height 0.2s, opacity 0.2s;
-  }
-  .cursor.hovered { width: 36px; height: 36px; opacity: 0.4; }
 
   /* NAV */
   nav {
@@ -287,7 +274,7 @@
     gap: 5px;
     background: none;
     border: none;
-    cursor: none;
+    cursor: pointer;
     padding: 4px;
   }
   .hamburger span {
@@ -338,15 +325,9 @@
     footer { padding: 32px 24px; }
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .cursor { display: none; }
-    body { cursor: auto; }
-  }
 </style>
 </head>
 <body>
-
-<div class="cursor" id="cursor"></div>
 
 <div class="mobile-menu" id="mobileMenu">
   <a href="../index.html" onclick="closeMobile()">inicio</a>
@@ -529,16 +510,6 @@
 </footer>
 
 <script>
-  const cursor = document.getElementById('cursor');
-  document.addEventListener('mousemove', e => {
-    cursor.style.left = e.clientX + 'px';
-    cursor.style.top = e.clientY + 'px';
-  });
-  document.querySelectorAll('a, button').forEach(el => {
-    el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
-    el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
-  });
-
   // Hamburger
   const hamburger = document.getElementById('hamburger');
   const mobileMenu = document.getElementById('mobileMenu');

@@ -28,31 +28,11 @@
     color: var(--white);
     font-family: 'DM Sans', sans-serif;
     overflow-x: hidden;
-    cursor: none;
   }
 
   .display {
     font-family: 'Archivo Black', sans-serif;
     text-transform: lowercase;
-  }
-
-  /* CURSOR */
-  .cursor {
-    width: 10px;
-    height: 10px;
-    background: var(--white);
-    border-radius: 50%;
-    position: fixed;
-    pointer-events: none;
-    z-index: 9999;
-    transform: translate(-50%, -50%);
-    transition: width 0.2s, height 0.2s, background 0.2s, opacity 0.2s;
-    mix-blend-mode: difference;
-  }
-
-  .cursor.hovered {
-    width: 40px;
-    height: 40px;
   }
 
   /* NAV */
@@ -126,7 +106,7 @@
     gap: 5px;
     background: none;
     border: none;
-    cursor: none;
+    cursor: pointer;
     padding: 4px;
   }
   .hamburger span {
@@ -516,14 +496,10 @@
     .hero-pills { animation: none; opacity: 1; transform: none; }
     .hero-blob { animation: none; }
     .marquee-track { animation: none; }
-    .cursor { display: none; }
-    body { cursor: auto; }
   }
 </style>
 </head>
 <body>
-
-<div class="cursor" id="cursor"></div>
 
 <!-- MOBILE MENU -->
 <div class="mobile-menu" id="mobileMenu">
@@ -645,17 +621,6 @@
 </footer>
 
 <script>
-  // Cursor
-  const cursor = document.getElementById('cursor');
-  document.addEventListener('mousemove', e => {
-    cursor.style.left = e.clientX + 'px';
-    cursor.style.top = e.clientY + 'px';
-  });
-  document.querySelectorAll('a, button').forEach(el => {
-    el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
-    el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
-  });
-
   // Nav scroll state
   const nav = document.getElementById('mainNav');
   window.addEventListener('scroll', () => {
