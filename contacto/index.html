@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>contacto — jarana lab</title>
+<meta name="description" content="Escríbeme. jarana lab.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --black-soft: #1a1a1a;
+    --white: #f2f0eb;
+    --gray-border: #3a3a3a;
+    --collage: #E8430A;
+    --poesia: #7B4FD4;
+    --podcast: #D4960A;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+  }
+
+  .display {
+    font-family: 'Archivo Black', sans-serif;
+    text-transform: lowercase;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 48px;
+    background: rgba(10,10,10,0.88);
+    backdrop-filter: blur(10px);
+    border-bottom: 0.5px solid var(--gray-border);
+  }
+
+  .nav-logo {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 20px;
+    letter-spacing: -1px;
+    color: var(--white);
+    text-transform: lowercase;
+    text-decoration: none;
+  }
+  .nav-logo span { opacity: 0.35; }
+
+  .nav-links {
+    display: none;
+    gap: 32px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(242,240,235,0.5);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--white); }
+  .nav-links a.active { color: var(--white); }
+  .nav-links a.collages { color: var(--collage); }
+  .nav-links a.poesia { color: var(--poesia); }
+  .nav-links a.podcast { color: var(--podcast); }
+
+  /* HEADER */
+  .page-header {
+    padding: 140px 48px 64px;
+    border-bottom: 0.5px solid var(--gray-border);
+  }
+
+  .page-title {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: clamp(48px, 10vw, 120px);
+    text-transform: lowercase;
+    letter-spacing: -3px;
+    line-height: 0.9;
+    color: var(--white);
+  }
+
+  .page-sub {
+    margin-top: 24px;
+    max-width: 480px;
+    font-size: 16px;
+    line-height: 1.7;
+    color: rgba(242,240,235,0.55);
+  }
+
+  /* FORM */
+  .contact-wrap {
+    padding: 80px 48px 120px;
+    max-width: 640px;
+  }
+
+  .field {
+    margin-bottom: 32px;
+  }
+
+  .field label {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(242,240,235,0.4);
+    margin-bottom: 12px;
+  }
+
+  .field input,
+  .field textarea {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--gray-border);
+    padding: 12px 0;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 18px;
+    color: var(--white);
+    transition: border-color 0.25s ease;
+    resize: none;
+  }
+
+  .field input::placeholder,
+  .field textarea::placeholder {
+    color: rgba(242,240,235,0.25);
+  }
+
+  .field input:focus,
+  .field textarea:focus {
+    outline: none;
+    border-bottom-color: var(--white);
+  }
+
+  .field textarea { min-height: 140px; line-height: 1.6; }
+
+  .submit-btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--black);
+    background: var(--white);
+    border: none;
+    border-radius: 30px;
+    padding: 16px 40px;
+    cursor: pointer;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s;
+  }
+  .submit-btn:hover { transform: translateY(-3px); opacity: 0.85; }
+
+  .contact-success {
+    display: none;
+    padding: 32px 0;
+  }
+  .contact-success.visible { display: block; }
+  .contact-success p {
+    font-size: 20px;
+    line-height: 1.6;
+    color: rgba(242,240,235,0.8);
+  }
+  .contact-success .highlight { color: var(--white); font-weight: 700; }
+
+  #contactForm.hidden { display: none; }
+
+  /* Hamburger */
+  .hamburger {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+  }
+  .hamburger span {
+    display: block;
+    width: 24px;
+    height: 1.5px;
+    background: var(--white);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    transform-origin: center;
+  }
+  .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 99;
+    background: var(--black);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .mobile-menu.open { display: flex; opacity: 1; }
+  .mobile-menu a {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: clamp(36px, 8vw, 64px);
+    text-transform: lowercase;
+    color: var(--white);
+    text-decoration: none;
+    letter-spacing: -2px;
+    transition: opacity 0.2s;
+  }
+  .mobile-menu a:hover { opacity: 0.6; }
+  .mobile-menu a.collages { color: var(--collage); }
+  .mobile-menu a.poesia { color: var(--poesia); }
+  .mobile-menu a.podcast { color: var(--podcast); }
+
+  /* FOOTER */
+  footer {
+    padding: 40px 48px;
+    border-top: 0.5px solid var(--gray-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .footer-logo {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 16px;
+    text-transform: lowercase;
+    color: var(--white);
+    text-decoration: none;
+  }
+  .footer-logo span { opacity: 0.35; }
+  .footer-copy { font-size: 12px; color: rgba(242,240,235,0.3); }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav { padding: 18px 24px; }
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    body.menu-open { overflow: hidden; }
+    .page-header { padding: 120px 24px 48px; }
+    .contact-wrap { padding: 56px 24px 80px; }
+    footer { padding: 32px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="../index.html" onclick="closeMobile()">inicio</a>
+  <a href="../collages/" class="collages" onclick="closeMobile()">collages</a>
+  <a href="../textos/" class="poesia" onclick="closeMobile()">textos</a>
+  <a href="../podcast/" class="podcast" onclick="closeMobile()">pódcast</a>
+  <a href="../index.html#sobre" onclick="closeMobile()">sobre</a>
+  <a href="#" class="active" onclick="closeMobile()">contacto</a>
+</div>
+
+<nav>
+  <a href="../index.html" class="nav-logo">jarana<span> lab</span></a>
+  <ul class="nav-links">
+    <li><a href="../index.html">inicio</a></li>
+    <li><a href="../collages/" class="collages">collages</a></li>
+    <li><a href="../textos/" class="poesia">textos</a></li>
+    <li><a href="../podcast/" class="podcast">pódcast</a></li>
+    <li><a href="../index.html#sobre">sobre</a></li>
+    <li><a href="#" class="active">contacto</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Abrir menú">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<header class="page-header">
+  <h1 class="page-title display">contacto</h1>
+  <p class="page-sub">¿quieres contactarme para colaborar, preguntarme algo o solamente para conectar? Escríbeme por aquí.</p>
+</header>
+
+<section class="contact-wrap">
+
+  <form id="contactForm" action="https://formsubmit.co/cristinamarindea@gmail.com" method="POST">
+    <input type="hidden" name="_subject" value="Nuevo mensaje desde jarana lab">
+    <input type="hidden" name="_template" value="table">
+    <input type="hidden" name="_next" value="https://jarana-lab.com/contacto/?enviado=1">
+    <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+
+    <div class="field">
+      <label for="email">tu email</label>
+      <input type="email" id="email" name="email" placeholder="tucorreo@ejemplo.com" required>
+    </div>
+
+    <div class="field">
+      <label for="asunto">asunto</label>
+      <input type="text" id="asunto" name="asunto" placeholder="¿de qué se trata?" required>
+    </div>
+
+    <div class="field">
+      <label for="mensaje">mensaje</label>
+      <textarea id="mensaje" name="mensaje" placeholder="cuéntame..." required></textarea>
+    </div>
+
+    <button type="submit" class="submit-btn">enviar</button>
+  </form>
+
+  <div class="contact-success" id="contactSuccess">
+    <p><span class="highlight">¡Gracias por tu mensaje!</span><br>Lo he recibido y te responderé lo antes posible.</p>
+  </div>
+
+</section>
+
+<footer>
+  <a href="../index.html" class="footer-logo">jarana<span> lab</span></a>
+  <p class="footer-copy">© 2026 jarana lab · Cristina Marín de Agustín. Todo el contenido (textos, collages y audio) está protegido por derechos de autor. Prohibida su reproducción sin autorización.</p>
+</footer>
+
+<script>
+  // Hamburger
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  hamburger.addEventListener('click', () => {
+    const open = hamburger.classList.toggle('open');
+    mobileMenu.classList.toggle('open', open);
+    document.body.classList.toggle('menu-open', open);
+  });
+
+  function closeMobile() {
+    hamburger.classList.remove('open');
+    mobileMenu.classList.remove('open');
+    document.body.classList.remove('menu-open');
+  }
+
+  // Show success state after FormSubmit redirect
+  if (new URLSearchParams(window.location.search).get('enviado') === '1') {
+    document.getElementById('contactForm').classList.add('hidden');
+    document.getElementById('contactSuccess').classList.add('visible');
+  }
+</script>
+
+</body>
+</html>
