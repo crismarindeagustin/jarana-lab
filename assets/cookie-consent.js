@@ -71,8 +71,8 @@
     banner.setAttribute('role', 'dialog');
     banner.setAttribute('aria-label', 'Aviso de cookies');
     banner.innerHTML =
-      '<p class="cc-text">Usamos cookies necesarias para que la web funcione y, si lo aceptas, cookies analíticas ' +
-      '(Google Analytics) para entender cómo se usa. <a href="/cookies/" class="cc-link">más información</a></p>' +
+      '<p class="cc-text">usamos cookies necesarias para que la web funcione y, si lo aceptas, cookies analíticas ' +
+      'para entender cómo se usa. <a href="/cookies/" class="cc-link">más información</a></p>' +
       '<div class="cc-actions" data-cc-main>' +
       '<button type="button" class="cc-btn cc-settings">configurar</button>' +
       '<button type="button" class="cc-btn cc-reject">rechazar</button>' +
