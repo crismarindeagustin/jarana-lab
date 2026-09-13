@@ -1,6 +1,33 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+<!-- Google Consent Mode (default: denied until the visitor chooses) -->
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('consent', 'default', {
+  ad_storage: 'denied',
+  ad_user_data: 'denied',
+  ad_personalization: 'denied',
+  analytics_storage: 'denied',
+  wait_for_update: 500
+});
+(function () {
+  try {
+    var stored = JSON.parse(localStorage.getItem('jarana_cookie_consent') || 'null');
+    if (stored && stored.analytics) {
+      gtag('consent', 'update', { analytics_storage: 'granted' });
+    }
+  } catch (e) {}
+})();
+</script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-K44S2GFH');</script>
+<!-- End Google Tag Manager -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>collages — jarana lab</title>
@@ -392,6 +419,10 @@
 </style>
 </head>
 <body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K44S2GFH"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
 
 
 <div class="mobile-menu" id="mobileMenu">
@@ -500,7 +531,7 @@
 
 <footer>
   <a href="../index.html" class="footer-logo">jarana<span> lab</span></a>
-  <p class="footer-copy">© 2026 jarana lab · Cristina Marín de Agustín. Todo el contenido (textos, collages y audio) está protegido por derechos de autor. Prohibida su reproducción sin autorización.</p>
+  <p class="footer-copy">© 2026 jarana lab · Cristina Marín de Agustín. Todo el contenido (textos, collages y audio) está protegido por derechos de autor. Prohibida su reproducción sin autorización. · <a href="../cookies/" class="footer-legal-link">política de cookies</a> · <button type="button" class="footer-legal-link" onclick="window.openCookiePreferences && window.openCookiePreferences()">gestionar cookies</button></p>
 </footer>
 
 <script>
@@ -674,5 +705,6 @@
   }
 </script>
 
+<script src="/assets/cookie-consent.js" defer></script>
 </body>
 </html>
